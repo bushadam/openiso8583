@@ -26,12 +26,12 @@ namespace OpenIso8583Net
         /// <summary>
         ///   Bitmap for the ISO message
         /// </summary>
-        private readonly Bitmap bitmap;
+        protected readonly Bitmap bitmap;
 
         /// <summary>
         ///   Dictionary containing all the fields in the message
         /// </summary>
-        private readonly Dictionary<int, IField> fields;
+        protected readonly Dictionary<int, IField> fields;
 
         #endregion
 

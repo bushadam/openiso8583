@@ -61,6 +61,10 @@ namespace OpenIso8583Net.Formatter
         /// <returns>Packed length of the data</returns>
         public static int GetPackedLength(int unpackedLength)
         {
+            if (unpackedLength % 2 != 0)
+            {
+                return (unpackedLength + 1) / 2;
+            }
             return unpackedLength/2;
         }
     }

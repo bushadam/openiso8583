@@ -13,7 +13,19 @@ namespace OpenIso8583Net.Exceptions
         /// <param name = "fieldNumber"></param>
         /// <param name = "message"></param>
         public FieldFormatException(int fieldNumber, string message)
-            : base("Field Number : " + fieldNumber + Environment.NewLine + message)
+            : this("", fieldNumber, message)
+        {
+
+        }
+
+        /// <summary>
+        ///   Create a new instance of the FieldFormatException class
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name = "fieldNumber"></param>
+        /// <param name = "message"></param>
+        public FieldFormatException(string prefix, int fieldNumber, string message)
+            : base("Field Number : " + prefix + fieldNumber + Environment.NewLine + message)
         {
             FieldNumber = fieldNumber;
         }

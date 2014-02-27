@@ -33,7 +33,7 @@ namespace OpenIso8583Net.Tests
             f.Value = "77";
             var actual = f.ToMsg();
             var expected = new byte[2];
-            expected[0] = 0x02;
+            expected[0] = 0x01;
             expected[1] = 0x77;
             CollectionAssert.AreEqual(expected, actual);
         }

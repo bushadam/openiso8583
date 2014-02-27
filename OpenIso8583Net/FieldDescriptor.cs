@@ -405,7 +405,7 @@ namespace OpenIso8583Net
             var lenOfLenInd = this.LengthFormatter.LengthOfLengthIndicator;
             var lengthOfField = this.Formatter.GetPackedLength(value.Length);
             var field = new byte[lenOfLenInd + lengthOfField];
-            this.LengthFormatter.Pack(field, value.Length, 0);
+            this.LengthFormatter.Pack(field, lengthOfField, 0);
             var fieldData = this.Formatter.GetBytes(value);
             Array.Copy(fieldData, 0, field, lenOfLenInd, lengthOfField);
             return field;

@@ -25,11 +25,6 @@ namespace OpenIso8583Net
         /// </summary>
         private readonly bool[] bits;
 
-        /// <summary>
-        ///   The _formatter.
-        /// </summary>
-        private readonly IFormatter formatter;
-
         #endregion
 
         #region Constructors and Destructors
@@ -50,7 +45,7 @@ namespace OpenIso8583Net
         /// </param>
         public Bitmap(IFormatter formatter)
         {
-            this.formatter = formatter;
+            Formatter = formatter;
             this.bits = new bool[128];
         }
 
@@ -69,6 +64,8 @@ namespace OpenIso8583Net
             }
         }
 
+        public IFormatter Formatter { get; set; }
+
         /// <summary>
         ///   Gets the packed length of the message
         /// </summary>
@@ -76,7 +73,7 @@ namespace OpenIso8583Net
         {
             get
             {
-                return this.formatter.GetPackedLength(this.IsExtendedBitmap ? 32 : 16);
+                return this.Formatter.GetPackedLength(this.IsExtendedBitmap ? 32 : 16);
             }
         }
 
@@ -165,7 +162,7 @@ namespace OpenIso8583Net
                 }
             }
 
-            if (this.formatter is BinaryFormatter)
+            if (this.Formatter is BinaryFormatter)
             {
                 return data;
             }
@@ -173,7 +170,7 @@ namespace OpenIso8583Net
             IFormatter binaryFormatter = new BinaryFormatter();
             var bitmapString = binaryFormatter.GetString(data);
 
-            return this.formatter.GetBytes(bitmapString);
+            return this.Formatter.GetBytes(bitmapString);
         }
 
         /// <summary>
@@ -192,8 +189,8 @@ namespace OpenIso8583Net
         {
             // This is a horribly nasty way of doing the bitmaps, but it works
             // I think...
-            var lengthOfBitmap = this.formatter.GetPackedLength(16);
-            if (this.formatter is BinaryFormatter)
+            var lengthOfBitmap = this.Formatter.GetPackedLength(16);
+            if (this.Formatter is BinaryFormatter)
             {
                 if (msg[offset] >= 128)
                 {
@@ -211,10 +208,10 @@ namespace OpenIso8583Net
             var bitmapData = new byte[lengthOfBitmap];
             Array.Copy(msg, offset, bitmapData, 0, lengthOfBitmap);
 
-            if (!(this.formatter is BinaryFormatter))
+            if (!(this.Formatter is BinaryFormatter))
             {
                 IFormatter binaryFormatter = new BinaryFormatter();
-                var value = this.formatter.GetString(bitmapData);
+                var value = this.Formatter.GetString(bitmapData);
                 bitmapData = binaryFormatter.GetBytes(value);
             }
 
