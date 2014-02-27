@@ -71,6 +71,7 @@
     <Compile Include="IsoConvertTests.cs" />
     <Compile Include="LengthFormatters\TestFixedLengthFormatter.cs" />
     <Compile Include="LengthFormatters\TestVariableLengthFormatter.cs" />
+    <Compile Include="MinistatementDataTests.cs" />
     <Compile Include="NetworkHeaders\TestTwoByteHeader.cs" />
     <Compile Include="ProcessingCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

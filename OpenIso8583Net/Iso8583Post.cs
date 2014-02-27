@@ -7,7 +7,7 @@ namespace OpenIso8583Net
     ///   Postilion ISO 8583 Message
     /// </summary>
     /// <remarks>
-    ///   This inherits from EftIso.Iso8583 and adds a number of postilion specific fields.  In particular, field 127
+    ///   This inherits from Iso8583 and adds a number of postilion specific fields.  In particular, field 127
     ///   the postilion private bitmap field has been added
     /// </remarks>
     /// <example>

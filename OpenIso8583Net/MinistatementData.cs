@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EftIso.Postilion
+namespace OpenIso8583Net
 {
     /// <summary>
     ///   This class parses Ministatement data in field 48 in the response message

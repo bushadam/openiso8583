@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EftIso.Postilion
+namespace OpenIso8583Net
 {
     /// <summary>
     ///   Class representing a Ministatement Line
