@@ -92,7 +92,7 @@ namespace OpenIso8583Net
         /// <summary>
         ///  Gets a template describing the ISO message
         /// </summary>
-        protected Template Template { get; private set; }
+        protected Template Template { get; set; }
 
         #endregion
 

@@ -78,6 +78,7 @@
     <Compile Include="TermAppIso\AdditionalDataTests.cs" />
     <Compile Include="TermAppIso\SecurityInfoFieldTests.cs" />
     <Compile Include="TermAppIso\StructuredDataTests.cs" />
+    <Compile Include="TermAppIso\TermAppIsoUnpackTests.cs" />
     <Compile Include="TestMessages\BCDIsoMsg.cs" />
     <Compile Include="TestMessages\IsoMsgBinaryMsgTypeFormatter.cs" />
     <Compile Include="UtilsTest.cs" />
