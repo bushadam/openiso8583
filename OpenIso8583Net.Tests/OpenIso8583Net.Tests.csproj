@@ -60,6 +60,9 @@
     <Compile Include="BinaryFixedFieldTests.cs" />
     <Compile Include="BitmapAsciiTests.cs" />
     <Compile Include="BitmapTests.cs" />
+    <Compile Include="Emv\EmvTagsTests.cs" />
+    <Compile Include="Emv\LongTagTests.cs" />
+    <Compile Include="Emv\TagMaskingTests.cs" />
     <Compile Include="FieldDescriptorTests.cs" />
     <Compile Include="FixedFieldTests.cs" />
     <Compile Include="FixedLengthValidatorTests.cs" />

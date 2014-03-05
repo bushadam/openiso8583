@@ -45,6 +45,10 @@
     <Compile Include="AMessage.cs" />
     <Compile Include="Bitmap.cs" />
     <Compile Include="Crypto\Iso0PinBlockFormatter.cs" />
+    <Compile Include="Emv\EmvTags.cs" />
+    <Compile Include="Emv\EmvUtils.cs" />
+    <Compile Include="Emv\NamespaceDoc.cs" />
+    <Compile Include="Emv\Tag.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EuropayMessage.cs" />
     <Compile Include="Exceptions\FieldDescriptorException.cs" />

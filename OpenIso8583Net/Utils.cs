@@ -78,5 +78,111 @@ namespace OpenIso8583Net
                     .Append(pan.Substring((totalLength - endLength), endLength)) // end
                     .ToString();
         }
+
+          /// <summary>
+        /// Convert a byte array to a hex string
+        /// </summary>
+        /// <param name="data">
+        /// The data 
+        /// </param>
+        /// <returns>
+        /// Hex string representing the input data 
+        /// </returns>
+        public static string ToHex(this byte[] data)
+        {
+            var hex = BitConverter.ToString(data);
+            return hex.Replace("-", string.Empty);
+        }
+
+        /// <summary>
+        /// Debug print a byte array
+        /// </summary>
+        /// <param name="data">
+        /// The data to pring 
+        /// </param>
+        /// <returns>
+        /// Debug output string 
+        /// </returns>
+        public static string DebugPrint(byte[] data)
+        {
+            var sb = new StringBuilder();
+
+            var numberOfLines = (data.Length / 16) + 1;
+            for (int line = 0; line < numberOfLines; line++)
+            {
+                var lineOffset = line * 16;
+                sb.Append(Convert.ToString(lineOffset, 16).PadLeft(5, '0'));
+                sb.Append("  ");
+
+                int endOffset = lineOffset + 16;
+                if (endOffset > data.Length)
+                {
+                    endOffset = data.Length;
+                }
+
+                var textBuilder = new StringBuilder();
+
+                for (int i = lineOffset; i < endOffset; i++)
+                {
+                    var b = data[i];
+                    sb.Append(Convert.ToString(b, 16).ToUpper().PadLeft(2, '0'));
+                    sb.Append(" ");
+                    textBuilder.Append(GetChar(b));
+                }
+
+                if (endOffset != lineOffset + 16)
+                {
+                    sb.Append(' ', (lineOffset + 16 - endOffset) * 3);
+                }
+
+                sb.Append(" ");
+                sb.Append(textBuilder);
+
+                sb.Append(Environment.NewLine);
+            }
+
+            var str = sb.ToString();
+            return str.Substring(0, str.Length - Environment.NewLine.Length);
+        }
+
+        /// <summary>
+        /// Convert a hex string to byte array.
+        /// </summary>
+        /// <param name="hex">
+        /// The string 
+        /// </param>
+        /// <returns>
+        /// Byte array representing the input string 
+        /// </returns>
+        public static byte[] ToByteArray(this string hex)
+        {
+            var numberChars = hex.Length;
+            var bytes = new byte[numberChars / 2];
+            for (var i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+
+            return bytes;
+        }
+
+       /// <summary>
+        /// Get a printable character for a byte. Used in DebugPrint
+        /// </summary>
+        /// <param name="b">
+        /// The byte 
+        /// </param>
+        /// <returns>
+        /// The character 
+        /// </returns>
+        private static char GetChar(byte b)
+        {
+            if (b < 0x20 || b > 126)
+            {
+                return '.';
+            }
+
+            return (char)b;
+        }
     }
 }
