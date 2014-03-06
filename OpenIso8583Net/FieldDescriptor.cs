@@ -238,6 +238,18 @@ namespace OpenIso8583Net
         }
 
         /// <summary>
+        /// Create a Binary variable length field descriptor
+        /// </summary>
+        /// <param name="lengthIndicator">length indicator</param>
+        /// <param name="maxLength">max length of field</param>
+        /// <param name="validator">validator to use on the field</param>
+        /// <returns>field descriptor</returns>
+        public static IFieldDescriptor BinaryVar(int lengthIndicator, int maxLength, IFieldValidator validator)
+        {
+            return new FieldDescriptor(new VariableLengthFormatter(lengthIndicator, maxLength, Formatters.Ascii), FieldValidators.Hex, Formatters.Binary, null);
+        }
+
+        /// <summary>
         /// The bcd fixed.
         /// </summary>
         /// <param name="length">
