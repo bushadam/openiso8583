@@ -461,10 +461,9 @@ namespace OpenIso8583Net
             }
 
             var length = value.Length;
-
-            if ((this.Formatter is BinaryFormatter) || (this.Formatter is BcdFormatter))
+            if (this.Formatter is BcdFormatter)
             {
-                length = this.Formatter.GetPackedLength(length);
+                length = this.Formatter.GetPackedLength(value.Length);
 
                 // This is here because if the length of a BCD or binary field is odd, 
                 // we need to strip the first character off which would've been padding
