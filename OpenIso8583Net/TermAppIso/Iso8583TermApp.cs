@@ -49,7 +49,7 @@ namespace OpenIso8583Net.TermAppIso
                     { Bit._048_PRIVATE_ADDITIONAL_DATA, FieldDescriptor.AsciiVar(4, 9999, FieldValidators.None) },
                     { Bit._049_TRAN_CURRENCY_CODE, FieldDescriptor.AsciiFixed(3, FieldValidators.N) },
                     { Bit._050_SETTLEMENT_CURRENCY_CODE, FieldDescriptor.AsciiFixed(3, FieldValidators.N) },
-                    { Bit._052_PIN_DATA, FieldDescriptor.AsciiFixed(16, FieldValidators.Hex) },
+                    { Bit._052_PIN_DATA, FieldDescriptor.BinaryFixed(8) },
                     { Bit._053_SECURITY_INFO, new FieldDescriptor(new VariableLengthFormatter(2, 96), FieldValidators.Hex, Formatters.Binary, null) },
                     { Bit._054_ADDITIONAL_AMOUNTS, FieldDescriptor.AsciiVar(3, 96, FieldValidators.Hex) },
                     { Bit._055_ICC_DATA, FieldDescriptor.BinaryVar(3, 999, FieldValidators.None) },
