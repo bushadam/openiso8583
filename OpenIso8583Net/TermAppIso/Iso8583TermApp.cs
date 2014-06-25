@@ -59,7 +59,7 @@ namespace OpenIso8583Net.TermAppIso
                     { Bit._059_ECHO_DATA, FieldDescriptor.AsciiVar(3, 200, FieldValidators.Ans) },
                     { Bit._062_HOTCARD_CAPACITY, FieldDescriptor.AsciiVar(3, 5, FieldValidators.N) },
                     { Bit._063_TERMAPP_PRIVATE_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Hex) },
-                    { Bit._064_MAC, FieldDescriptor.AsciiFixed(8, FieldValidators.Hex) },
+                    { Bit._064_MAC, FieldDescriptor.AsciiFixed(16, FieldValidators.Hex) },
                     { Bit._066_ORIGINAL_FEES_AMOUNTS, FieldDescriptor.AsciiVar(3, 204, FieldValidators.Ans) },
                     { Bit._067_EXT_PAYMENT_DATA, FieldDescriptor.AsciiFixed(2, FieldValidators.N) },
                     { Bit._071_MSG_NR, FieldDescriptor.AsciiFixed(8, FieldValidators.N) },
@@ -86,7 +86,7 @@ namespace OpenIso8583Net.TermAppIso
                     { Bit._110_FEE_AMOUNTS_DEBITS, FieldDescriptor.AsciiVar(2, 84, FieldValidators.Ans) },
                     { Bit._123_RECEIPT_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Ans) },
                     { Bit._124_DISPLAY_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Ans) },
-                    { Bit._128_MAC, FieldDescriptor.AsciiFixed(8, FieldValidators.Hex) },
+                    { Bit._128_MAC, FieldDescriptor.AsciiFixed(16, FieldValidators.Hex) },
                 };
             binaryTemplate.BitmapFormatter = Formatters.Binary;
 
@@ -134,7 +134,7 @@ namespace OpenIso8583Net.TermAppIso
                     { Bit._059_ECHO_DATA, FieldDescriptor.AsciiVar(3, 200, FieldValidators.Ans) },
                     { Bit._062_HOTCARD_CAPACITY, FieldDescriptor.AsciiVar(3, 5, FieldValidators.N) },
                     { Bit._063_TERMAPP_PRIVATE_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Hex) },
-                    { Bit._064_MAC, FieldDescriptor.AsciiFixed(8, FieldValidators.Hex) },
+                    { Bit._064_MAC, FieldDescriptor.AsciiFixed(16, FieldValidators.Hex) },
                     { Bit._066_ORIGINAL_FEES_AMOUNTS, FieldDescriptor.AsciiVar(3, 204, FieldValidators.Ans) },
                     { Bit._067_EXT_PAYMENT_DATA, FieldDescriptor.AsciiFixed(2, FieldValidators.N) },
                     { Bit._071_MSG_NR, FieldDescriptor.AsciiFixed(8, FieldValidators.N) },
@@ -161,7 +161,7 @@ namespace OpenIso8583Net.TermAppIso
                     { Bit._110_FEE_AMOUNTS_DEBITS, FieldDescriptor.AsciiVar(2, 84, FieldValidators.Ans) },
                     { Bit._123_RECEIPT_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Ans) },
                     { Bit._124_DISPLAY_DATA, FieldDescriptor.AsciiVar(3, 999, FieldValidators.Ans) },
-                    { Bit._128_MAC, FieldDescriptor.AsciiFixed(8, FieldValidators.Hex) },
+                    { Bit._128_MAC, FieldDescriptor.AsciiFixed(16, FieldValidators.Hex) },
                 };
             asciiTemplate.BitmapFormatter = Formatters.Ascii;
         }
