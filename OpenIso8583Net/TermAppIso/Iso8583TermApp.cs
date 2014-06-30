@@ -167,6 +167,7 @@ namespace OpenIso8583Net.TermAppIso
         }
 
         private bool ascii;
+        private bool unpacking = false;
 
 
         public Iso8583TermApp()
@@ -182,10 +183,10 @@ namespace OpenIso8583Net.TermAppIso
             // I'm certain that TermApp.ISO in Postilion is broken when it comes to MACcing.  Using the 'B' format
             // when sending a message it has to be ASCII fixed 16, otherwise Postilion doesn't pick up the full MAC
             // However when Postilion replies, it packs the MAC in binary fixed 8
-            //if (unpacking && (field == Bit._064_MAC || field == Bit._128_MAC))
-            //{
-            //    return new Field(field, FieldDescriptor.getBinaryFixed(8));
-            //}
+            if (unpacking && (field == Bit._064_MAC || field == Bit._128_MAC))
+            {
+                return new Field(field, FieldDescriptor.BinaryFixed(8));
+            }
 
             return base.CreateField(field);
         }
@@ -280,7 +281,16 @@ namespace OpenIso8583Net.TermAppIso
             }
             this.bitmap.Formatter = Template.BitmapFormatter;
 
-            return base.Unpack(msg, startingOffset);
+            try
+            {
+                // This is retarded.  Bad TermApp.Iso.  Look at create field for why I'm doing this
+                unpacking = true;
+                return base.Unpack(msg, startingOffset);
+            }
+            finally
+            {
+                unpacking = false;
+            }
         }
     }
 }
