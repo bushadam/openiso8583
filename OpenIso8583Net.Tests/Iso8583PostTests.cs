@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenIso8583Net;
+using OpenIso8583Net.Exceptions;
 
 namespace OpenIso8583Net.Tests
 {
@@ -150,6 +151,94 @@ namespace OpenIso8583Net.Tests
 #pragma warning disable 168
             var data = msg.ToMsg();
 #pragma warning restore 168
+        }
+
+        [TestMethod]
+        public void TestIso8583PostTemplateRetrievalReferenceNumber()
+        {
+            var iso8583Post = new Iso8583Post();
+
+            iso8583Post.MessageType = Iso8583.MsgType._0200_TRAN_REQ;
+            iso8583Post[Iso8583.Bit._003_PROC_CODE] = "000000";
+            iso8583Post[Iso8583.Bit._037_RETRIEVAL_REF_NUM] = "RRN       12";
+            iso8583Post[Iso8583.Bit._038_AUTH_ID_RESPONSE] = "123456";
+
+            var rawBytes = iso8583Post.ToMsg();
+
+            Assert.IsNotNull(rawBytes);
+
+            var iso8583 = new Iso8583();
+            FieldFormatException expected = null;
+            try
+            {
+                iso8583.Unpack(rawBytes, 0);
+            }
+            catch(FieldFormatException ffe)
+            {
+                expected = ffe;
+            }
+
+            Assert.IsNotNull(expected);
+            Assert.AreEqual(Iso8583.Bit._037_RETRIEVAL_REF_NUM, expected.FieldNumber);
+        }
+
+        [TestMethod]
+        public void TestIso8583PostTemplateAuthIdResponse()
+        {
+            var iso8583Post = new Iso8583Post();
+
+            iso8583Post.MessageType = Iso8583.MsgType._0200_TRAN_REQ;
+            iso8583Post[Iso8583.Bit._003_PROC_CODE] = "000000";
+            iso8583Post[Iso8583.Bit._037_RETRIEVAL_REF_NUM] = "123456789012";
+            iso8583Post[Iso8583.Bit._038_AUTH_ID_RESPONSE] = "12 abc";
+
+            var rawBytes = iso8583Post.ToMsg();
+
+            Assert.IsNotNull(rawBytes);
+
+            var iso8583 = new Iso8583();
+            FieldFormatException expected = null;
+            try
+            {
+                iso8583.Unpack(rawBytes, 0);
+            }
+            catch (FieldFormatException ffe)
+            {
+                expected = ffe;
+            }
+
+            Assert.IsNotNull(expected);
+            Assert.AreEqual(Iso8583.Bit._038_AUTH_ID_RESPONSE, expected.FieldNumber);
+        }
+
+        [TestMethod]
+        public void TestIso8583PostTemplateEchoData()
+        {
+            var iso8583Post = new Iso8583Post();
+
+            iso8583Post.MessageType = Iso8583.MsgType._0200_TRAN_REQ;
+            iso8583Post[Iso8583.Bit._003_PROC_CODE] = "000000";
+            iso8583Post[Iso8583.Bit._037_RETRIEVAL_REF_NUM] = "123456789012";
+            iso8583Post[Iso8583.Bit._038_AUTH_ID_RESPONSE] = "123456";
+            iso8583Post[Iso8583Post.Bit._059_ECHO_DATA] = "Echo Data";
+
+            var rawBytes = iso8583Post.ToMsg();
+
+            Assert.IsNotNull(rawBytes);
+
+            var iso8583 = new Iso8583();
+            UnknownFieldException expected = null;
+            try
+            {
+                iso8583.Unpack(rawBytes, 0);
+            }
+            catch (UnknownFieldException e)
+            {
+                expected = e;
+            }
+
+            Assert.IsNotNull(expected);
+            Assert.AreEqual("59", expected.FieldNumber);
         }
     }
 }

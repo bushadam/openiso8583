@@ -46,13 +46,26 @@ namespace OpenIso8583Net
     /// </example>
     public class Iso8583Post : Iso8583
     {
+        /// <summary>
+        ///   The default template.
+        /// </summary>
+        private static readonly Template DefaultTemplate;
+
         private readonly Field127 _field127;
         private HashtableMessage _structuredData;
 
         /// <summary>
+        ///   Initializes static members of the <see cref="Iso8583" /> class.
+        /// </summary>
+        static Iso8583Post()
+        {
+            DefaultTemplate = GetDefaultIso8583PostTemplate();
+        }
+
+        /// <summary>
         ///   Creates a new Iso8583Post message
         /// </summary>
-        public Iso8583Post()
+        public Iso8583Post() : base(DefaultTemplate)
         {
         }
 
@@ -90,12 +103,6 @@ namespace OpenIso8583Net
             // Deal with the postilion specific fields first
             switch (field)
             {
-                case Bit._059_ECHO_DATA:
-                    //return new VariableField(59, FieldValidators.AlphaNumericSpecial, 3, 255);
-                    return new Field(field, FieldDescriptor.AsciiVar(3, 255, FieldValidators.AlphaNumericSpecial));
-                case Bit._123_POS_DATA_CODE:
-                    //return new VariableField(123, FieldValidators.AlphaNumeric, 3, 15);
-                    return new Field(123, FieldDescriptor.AsciiVar(3, 15, FieldValidators.AlphaNumeric));
                 case Bit._127_POSTILION_PRIVATE_FIELD:
                     return new Field127();
             }
@@ -124,6 +131,24 @@ namespace OpenIso8583Net
             if (_structuredData != null)
                 Private[PrivBit._022_STRUCTURED_DATA] = _structuredData.ToMessageString();
             return base.ToString();
+        }
+
+        /// <summary>
+        /// Get the default Is8583-Post template
+        /// </summary>
+        /// <returns>
+        /// A Template
+        /// </returns>
+        protected static Template GetDefaultIso8583PostTemplate()
+        {
+            var template = GetDefaultIso8583Template();
+
+            template[Bit._037_RETRIEVAL_REF_NUM] = FieldDescriptor.AsciiFixed(12, FieldValidators.Anp);
+            template[Bit._038_AUTH_ID_RESPONSE] = FieldDescriptor.AsciiFixed(6, FieldValidators.Anp);
+            template[Bit._059_ECHO_DATA] = FieldDescriptor.AsciiVar(3, 255, FieldValidators.AlphaNumericSpecial);
+            template[Bit._123_POS_DATA_CODE] = FieldDescriptor.AsciiVar(3, 15, FieldValidators.AlphaNumeric);
+
+            return template;
         }
 
         #region Nested type: Bit
