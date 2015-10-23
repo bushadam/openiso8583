@@ -86,6 +86,22 @@
         }
 
         /// <summary>
+        ///   Get an Alpha or Numeric validator
+        /// </summary>
+        public static IFieldValidator AorN
+        {
+            get { return AlphaOrNumeric; }
+        }
+
+        /// <summary>
+        ///   Get an Alpha or Numeric validator
+        /// </summary>
+        public static IFieldValidator AlphaOrNumeric
+        {
+            get { return new AlphaOrNumericFieldValidator(); }
+        }
+
+        /// <summary>
         ///   Gets a validator for hex data
         /// </summary>
         public static IFieldValidator Hex

@@ -65,6 +65,7 @@
     <Compile Include="FieldValidator\AlphaNumericFieldValidator.cs" />
     <Compile Include="FieldValidator\AlphaNumericPrintableFieldValidator.cs" />
     <Compile Include="FieldValidator\AlphaNumericSpecialFieldValidator.cs" />
+    <Compile Include="FieldValidator\AlphaOrNumericFieldValidator.cs" />
     <Compile Include="FieldValidator\FieldValidators.cs" />
     <Compile Include="FieldValidator\HexFieldValidator.cs" />
     <Compile Include="FieldValidator\IFieldValidator.cs" />

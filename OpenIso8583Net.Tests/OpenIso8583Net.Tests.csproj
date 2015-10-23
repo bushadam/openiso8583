@@ -89,6 +89,7 @@
     <Compile Include="ValidatorTests\AlphaNumericPrintableValidatorTests.cs" />
     <Compile Include="ValidatorTests\AlphaNumericSpecialValidatorTests.cs" />
     <Compile Include="ValidatorTests\AlphaNumericValidatorTests.cs" />
+    <Compile Include="ValidatorTests\AlphaOrNumericValidatorTests.cs" />
     <Compile Include="ValidatorTests\AlphaValidatorTests.cs" />
     <Compile Include="ValidatorTests\BaseValidatorTests.cs" />
     <Compile Include="ValidatorTests\HexValidatorTests.cs" />
