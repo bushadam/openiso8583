@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using OpenIso8583Net;
 using OpenIso8583Net.Exceptions;
 using OpenIso8583Net.FieldValidator;
 
@@ -72,6 +71,10 @@ namespace OpenIso8583Net
 
         #endregion
 
+        /// <summary>
+        /// Defines the Template used to describe the content of Field 127 - Realtime Private Field
+        /// </summary>
+        /// <returns>A Template defining the subfields contained in Field 127</returns>
         protected static Template GetPrivFieldTemplate()
         {
             var template = new Template
@@ -109,8 +112,14 @@ namespace OpenIso8583Net
                     { Bit._032_UCAF_DATA,    FieldDescriptor.AsciiVar( 2, 33,FieldValidators.Hex)},
                     { Bit._033_EXTENDED_TRAN_TYPE,    FieldDescriptor.AsciiFixed( 4,FieldValidators.Numeric)},
                     { Bit._034_ACC_TYPE_QUALIFIERS,    FieldDescriptor.AsciiFixed( 2,FieldValidators.Numeric)},
-                    { Bit._035_ACQ_NETWORK_ID,    FieldDescriptor.AsciiVar( 2, 11,FieldValidators.AlphaNumericSpecial)},
-                    { Bit._039_ORIG_RESPONSE_CODE,    FieldDescriptor.AsciiFixed( 2,FieldValidators.AlphaNumeric)}
+                    { Bit._035_ACQ_NETWORK_ID,    FieldDescriptor.AsciiVar( 2, 11, FieldValidators.AlphaNumericSpecial)},
+                    { Bit._036_CUSTOMER_ID,    FieldDescriptor.AsciiVar( 2, 25, FieldValidators.AlphaNumericSpecial)},
+                    { Bit._037_EXTENDED_RESPONSE_CODE,    FieldDescriptor.AsciiFixed( 4, FieldValidators.AlphaNumeric)},
+                    { Bit._038_ADDITIONAL_POS_DATA_CODE,    FieldDescriptor.AsciiVar( 2, 99, FieldValidators.AlphaNumeric)},
+                    { Bit._039_ORIG_RESPONSE_CODE,    FieldDescriptor.AsciiFixed( 2, FieldValidators.AlphaNumeric)},
+                    { Bit._40_TRANSACTION_REFERENCE,    FieldDescriptor.AsciiVar( 3, 512, FieldValidators.AlphaNumericSpecial)},
+                    { Bit._41_ORIGINATING_REMOTE_ADDR,    FieldDescriptor.AsciiVar( 2, 99, FieldValidators.AlphaNumericSpecial)},
+                    { Bit._42_TRANSACTION_NUMBER,    FieldDescriptor.AsciiVar( 2, 99, FieldValidators.Numeric)}  //NOTE: the RTFW 5.5 Interface spec has a typo, the field is 'n..99, LLVAR' and *not* 'n..10, LLVAR' as described in the spec.
                 };
             return template;
         }
@@ -312,9 +321,39 @@ namespace OpenIso8583Net
             public const int _035_ACQ_NETWORK_ID = 35;
 
             /// <summary>
+            /// Customer Id
+            /// </summary>
+            public const int _036_CUSTOMER_ID = 36;
+
+            /// <summary>
+            /// Extended Response Code
+            /// </summary>
+            public const int _037_EXTENDED_RESPONSE_CODE = 37;
+
+            /// <summary>
+            /// Additional Pos Data Code
+            /// </summary>
+            public const int _038_ADDITIONAL_POS_DATA_CODE = 38;
+
+            /// <summary>
             ///   Original Response Code
             /// </summary>
             public const int _039_ORIG_RESPONSE_CODE = 39;
+
+            /// <summary>
+            ///   Transaction Reference
+            /// </summary>
+            public const int _40_TRANSACTION_REFERENCE = 40;
+
+            /// <summary>
+            /// Originating Remote Address
+            /// </summary>
+            public const int _41_ORIGINATING_REMOTE_ADDR = 41;
+
+            /// <summary>
+            /// Transaction Number
+            /// </summary>
+            public const int _42_TRANSACTION_NUMBER = 42;
         }
 
         #endregion
