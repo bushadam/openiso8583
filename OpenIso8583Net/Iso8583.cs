@@ -106,10 +106,7 @@ namespace OpenIso8583Net
         {
             get
             {
-                return base.PackedLength
-                       +
-                       this.Template.MsgTypeFormatter.GetBytes(
-                           this.MessageType.ToString().PadLeft(4, '0')).Length;
+                return base.PackedLength + IsoConvert.FromIntToMsgTypeData(this.MessageType).Length;
             }
         }
 
