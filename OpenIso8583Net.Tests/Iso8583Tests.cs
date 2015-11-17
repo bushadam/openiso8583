@@ -119,11 +119,11 @@ namespace OpenIso8583Net.Tests
         [TestMethod]
         public void TestPrivateMessagePack()
         {
-            var msg = new Iso8583();
+            var msg = new Iso8583Post();
             msg[2] = "58889212354567816";
             msg[3] = "270010";
             msg[102] = "9012273811";
-            msg.MessageType = 9820;
+            msg.MessageType = 0x9820;
 
             var actual = msg.ToMsg();
 
