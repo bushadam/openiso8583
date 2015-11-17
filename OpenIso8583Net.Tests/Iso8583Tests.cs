@@ -115,6 +115,28 @@ namespace OpenIso8583Net.Tests
 
             CollectionAssert.AreEqual(expected, actual);
         }
+        
+        [TestMethod]
+        public void TestPrivateMessagePack()
+        {
+            var msg = new Iso8583();
+            msg[2] = "58889212354567816";
+            msg[3] = "270010";
+            msg[102] = "9012273811";
+            msg.MessageType = 9820;
+
+            var actual = msg.ToMsg();
+
+            var bitmap = new Bitmap();
+            bitmap[2] = true;
+            bitmap[3] = true;
+            bitmap[102] = true;
+            var bitmapData = bitmap.ToMsg();
+            var msgContent = Encoding.ASCII.GetBytes("1758889212354567816270010109012273811");
+
+            var fullMessageLength = 4 + bitmapData.Length + msgContent.Length;
+            Assert.AreEqual(fullMessageLength, msg.PackedLength, "Incorrect packed length");
+        }
 
         /// <summary>
         /// The test message extended unpack.
