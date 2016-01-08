@@ -104,8 +104,8 @@
             var tags = new EmvTags();
             tags.AddBcd(Tag.tran_date, "100824");
             tags.AddBcd(Tag.term_county_code, "710");
-            var expected = @"0x9a   'tran_date           ' = [100824]
-0x9f1a 'term_county_code    ' = [0710]";
+            var expected = "0x9a   'tran_date           ' = [100824]"+Environment.NewLine +
+                           "0x9f1a 'term_county_code    ' = [0710]";
             var actual = tags.ToString();
             Assert.AreEqual(expected, actual);
         }
