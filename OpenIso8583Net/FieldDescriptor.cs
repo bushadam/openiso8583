@@ -373,7 +373,7 @@ namespace OpenIso8583Net
             // Formating methods like string.Format("{0}", data) may print garbage when the data contains format characters
             var fieldValue = value == null ? string.Empty : new StringBuilder().Append("[").Append(value).Append("]").ToString();
 
-            return new StringBuilder().AppendFormat("{0}[{1,-8} {2,-4} {3,6} {4:d4}] {5:d3} {6}", prefix, this.LengthFormatter.Description, this.Validator.Description, this.LengthFormatter.MaxLength, this.Formatter.GetPackedLength(value == null ? 0 : value.Length), fieldNumber, fieldValue).ToString();
+            return new StringBuilder().AppendFormat("{0}[{1,-8} {2,-4} {3,6} {4:d4}] {5:d3} {6}", prefix, this.LengthFormatter.Description, this.Validator.Description, this.LengthFormatter.MaxLength, this.GetPackedLength(value ?? ""), fieldNumber, fieldValue).ToString();
         }
 
         /// <summary>
@@ -387,7 +387,13 @@ namespace OpenIso8583Net
         /// </returns>
         public virtual int GetPackedLength(string value)
         {
-            return this.LengthFormatter.LengthOfLengthIndicator + this.Formatter.GetPackedLength(value.Length);
+            if (Formatter is AsciiFormatter)
+            {
+                var length = Encoding.GetEncoding("GBK").GetByteCount(value);
+                return this.LengthFormatter.LengthOfLengthIndicator + this.Formatter.GetPackedLength(length);
+            }
+            else
+                return this.LengthFormatter.LengthOfLengthIndicator + this.Formatter.GetPackedLength(value.Length);
         }
 
         /// <summary>
@@ -415,10 +421,14 @@ namespace OpenIso8583Net
             }
 
             var lenOfLenInd = this.LengthFormatter.LengthOfLengthIndicator;
-            var lengthOfField = this.Formatter.GetPackedLength(value.Length);
+            var fieldData = this.Formatter.GetBytes(value);
+            var lengthOfField = 0;
+            if (Formatter is AsciiFormatter)
+             lengthOfField = this.Formatter.GetPackedLength(fieldData.Length);
+            else
+                lengthOfField = this.Formatter.GetPackedLength(value.Length);
             var field = new byte[lenOfLenInd + lengthOfField];
             this.LengthFormatter.Pack(field, lengthOfField, 0);
-            var fieldData = this.Formatter.GetBytes(value);
             Array.Copy(fieldData, 0, field, lenOfLenInd, lengthOfField);
             return field;
         }

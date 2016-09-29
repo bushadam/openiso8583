@@ -12,7 +12,7 @@
         /// </summary>
         public string Description
         {
-            get { return "hex"; }
+            get { return "HEX"; }
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
         /// </summary>
         public string Description
         {
-            get { return "a"; }
+            get { return "A"; }
         }
 
         /// <summary>
