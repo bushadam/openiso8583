@@ -480,7 +480,28 @@
         /// <summary>
         /// The icc_response.
         /// </summary>
-        icc_response = 0xff21
+        icc_response = 0xff21,
+
+
+        /// <summary>
+        /// The psbc termial_type.
+        /// </summary>
+        termial_type = 0x9f35,
+
+        /// <summary>
+        /// The psbc isuer_scrpt_results.
+        /// </summary>
+        isuer_scrpt_results = 0xdf31,
+
+        /// <summary>
+        /// The psbc ECIAC.
+        /// </summary>
+        eciac = 0x9f74,
+
+        /// <summary>
+        /// The psbc card_type.
+        /// </summary>
+        card_type = 0x9f63
         // ReSharper restore InconsistentNaming
     }
 }

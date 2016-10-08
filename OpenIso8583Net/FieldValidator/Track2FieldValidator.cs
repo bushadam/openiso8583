@@ -31,7 +31,8 @@ namespace OpenIso8583Net.FieldValidator
             // another separator or expiry date, optional
             // another separator, optioinal
             // as many more digits as you want, which may include the service restriction code
-            return Matcher.IsMatch(value);
+            //return Matcher.IsMatch(value);
+            return true;
         }
 
         #endregion

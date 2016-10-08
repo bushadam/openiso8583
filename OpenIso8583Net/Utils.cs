@@ -90,8 +90,18 @@ namespace OpenIso8583Net
         /// </returns>
         public static string ToHex(this byte[] data)
         {
-            var hex = BitConverter.ToString(data);
-            return hex.Replace("-", string.Empty);
+            var c = new char[data.Length * 2];
+
+            for (int bx = 0, cx = 0; bx < data.Length; ++bx, ++cx)
+            {
+                var b = (byte)(data[bx] >> 4);
+                c[cx] = (char)(b > 9 ? b + 0x41 - 0x0A : b + 0x30);
+
+                b = (byte)(data[bx] & 0x0F);
+                c[++cx] = (char)(b > 9 ? b + 0x41 - 0x0A : b + 0x30);
+            }
+
+            return new string(c);
         }
 
         /// <summary>
@@ -103,46 +113,43 @@ namespace OpenIso8583Net
         /// <returns>
         /// Debug output string 
         /// </returns>
-        public static string DebugPrint(byte[] data)
+        public static string DebugPrint(byte[] bytes)
         {
             var sb = new StringBuilder();
 
-            var numberOfLines = (data.Length / 16) + 1;
+            var numberOfLines = Math.Ceiling(bytes.Length / 16.0);
             for (int line = 0; line < numberOfLines; line++)
             {
+                sb.AppendLine();
                 var lineOffset = line * 16;
                 sb.Append(Convert.ToString(lineOffset, 16).PadLeft(5, '0'));
                 sb.Append("  ");
 
                 int endOffset = lineOffset + 16;
-                if (endOffset > data.Length)
-                {
-                    endOffset = data.Length;
-                }
+                if (endOffset > bytes.Length)
+                    endOffset = bytes.Length;
 
-                var textBuilder = new StringBuilder();
-
+                var charter = new char[endOffset - lineOffset];
                 for (int i = lineOffset; i < endOffset; i++)
                 {
-                    var b = data[i];
-                    sb.Append(Convert.ToString(b, 16).ToUpper().PadLeft(2, '0'));
-                    sb.Append(" ");
-                    textBuilder.Append(GetChar(b));
+                    var b = (byte)(bytes[i] >> 4);
+                    sb.Append((char)(b > 9 ? b + 0x41 - 0x0A : b + 0x30));
+
+                    b = (byte)(bytes[i] & 0x0F);
+                    sb.Append((char)(b > 9 ? b + 0x41 - 0x0A : b + 0x30));
+
+                    charter[i - lineOffset] = (bytes[i] < 0x20 || bytes[i] > 126) ? '.' : (char)bytes[i];
+
+                    sb.Append(' ');
                 }
 
                 if (endOffset != lineOffset + 16)
-                {
                     sb.Append(' ', (lineOffset + 16 - endOffset) * 3);
-                }
-
                 sb.Append(" ");
-                sb.Append(textBuilder);
-
-                sb.Append(Environment.NewLine);
+                sb.Append(new string(charter));
             }
 
-            var str = sb.ToString();
-            return str.Substring(0, str.Length - Environment.NewLine.Length);
+            return sb.ToString();
         }
 
         /// <summary>
@@ -156,33 +163,23 @@ namespace OpenIso8583Net
         /// </returns>
         public static byte[] ToByteArray(this string hex)
         {
-            var numberChars = hex.Length;
-            var bytes = new byte[numberChars / 2];
-            for (var i = 0; i < numberChars; i += 2)
+            hex = hex.Replace("\n", "").Replace(" ", "");
+            if (hex.Length == 0 || hex.Length % 2 != 0)
+                return new byte[0];
+
+            var buffer = new byte[hex.Length / 2];
+            for (int bx = 0, sx = 0; bx < buffer.Length; ++bx, ++sx)
             {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                // Convert first half of byte
+                var c = hex[sx];
+                buffer[bx] = (byte)((c > '9' ? (c > 'Z' ? c - 'a' + 10 : c - 'A' + 10) : c - '0') << 4);
+
+                // Convert second half of byte
+                c = hex[++sx];
+                buffer[bx] |= (byte)(c > '9' ? (c > 'Z' ? c - 'a' + 10 : c - 'A' + 10) : c - '0');
             }
 
-            return bytes;
-        }
-
-       /// <summary>
-        /// Get a printable character for a byte. Used in DebugPrint
-        /// </summary>
-        /// <param name="b">
-        /// The byte 
-        /// </param>
-        /// <returns>
-        /// The character 
-        /// </returns>
-        private static char GetChar(byte b)
-        {
-            if (b < 0x20 || b > 126)
-            {
-                return '.';
-            }
-
-            return (char)b;
+            return buffer;
         }
     }
 }
