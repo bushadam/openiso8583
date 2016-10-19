@@ -85,6 +85,110 @@ namespace OpenIso8583Net
 
         #region Public Methods and Operators
 
+        public static IFieldDescriptor Ax(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadRight(length, ' '));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Ansp, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor Allx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.A, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Alllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.A, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ANx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadRight(length, ' '));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Ansp, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor ANllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.Ansp, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ANlllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Ansp, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ANSx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadRight(length, ' '));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Ans, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor ANSllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ANSlllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ASx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadRight(length, ' '));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Ans, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor ASllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor ASlllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Sx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadRight(length, ' '));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Ans, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor Sllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Slllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Ans, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Nx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadLeft(length, '0'));
+            return Create(new FixedLengthFormatter(length), FieldValidators.N, Formatters.Ascii, setAdjuster);
+        }
+        public static IFieldDescriptor Nllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.N, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Nlllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.N, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Zllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.Track2, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Zlllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Track2, Formatters.Ascii);
+        }
+        public static IFieldDescriptor Bx(int length)
+        {
+            return Create(new FixedLengthFormatter(length), FieldValidators.Hex, Formatters.Binary);
+        }
+        public static IFieldDescriptor Bllx(int length)
+        {
+            return Create(new VariableLengthFormatter(2, length), FieldValidators.Hex, Formatters.Binary);
+        }
+        public static IFieldDescriptor Blllx(int length)
+        {
+            return Create(new VariableLengthFormatter(3, length), FieldValidators.Hex, Formatters.Binary);
+        }
+        public static IFieldDescriptor XNx(int length)
+        {
+            var setAdjuster = new LambdaAdjuster(setLambda: value => value.PadLeft(length, '0'));
+            return Create(new FixedLengthFormatter(length), FieldValidators.Rev87AmountValidator, Formatters.Ascii, setAdjuster);
+        }
+
         /// <summary>
         /// Create ASCII packed fixed length auto-padding alphanumeric field (AN)
         /// </summary>
@@ -172,6 +276,10 @@ namespace OpenIso8583Net
         public static IFieldDescriptor AsciiLllBinary(int packedLength)
         {
             return Create(new VariableLengthFormatter(3, packedLength), FieldValidators.Hex, Formatters.Binary);
+        }
+        public static IFieldDescriptor AsciiLlBinary(int packedLength)
+        {
+            return Create(new VariableLengthFormatter(2, packedLength), FieldValidators.Hex, Formatters.Binary);
         }
 
         /// <summary>
@@ -471,13 +579,13 @@ namespace OpenIso8583Net
             }
 
             var length = value.Length;
-            if (this.Formatter is BcdFormatter)
+            if (this.Formatter is BcdFormatter || this.Formatter is BinaryFormatter)
             {
                 length = this.Formatter.GetPackedLength(value.Length);
 
                 // This is here because if the length of a BCD or binary field is odd, 
                 // we need to strip the first character off which would've been padding
-                if (unpackedLengthOfField % 2 != 0)
+                if (this.Formatter is BcdFormatter && unpackedLengthOfField % 2 != 0)
                 {
                     value = value.Substring(1);
                 }

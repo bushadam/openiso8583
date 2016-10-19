@@ -77,6 +77,19 @@ namespace OpenIso8583Net.LengthFormatters
             var lenStr = _lengthFormatter.GetString(lenData);
             return int.Parse(lenStr);
         }
+        /// <summary>
+        ///   Get the length of the field
+        /// </summary>
+        /// <param name = "msg">Byte array of message data</param>
+        /// <param name = "offset">offset to start parsing</param>
+        /// <returns>The length of the field</returns>
+        public string GetStrLengthOfField(byte[] msg, int offset)
+        {
+            var len = LengthOfLengthIndicator;
+            var lenData = new byte[len];
+            Array.Copy(msg, offset, lenData, 0, len);
+            return _lengthFormatter.GetString(lenData);
+        }
 
         /// <summary>
         ///   Pack the length header into the message

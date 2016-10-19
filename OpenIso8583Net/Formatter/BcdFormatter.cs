@@ -30,7 +30,7 @@ namespace OpenIso8583Net.Formatter
                 var lowNibble = byte.Parse(chars[2 * i + 1].ToString());
                 bytes[i] = (byte)((byte)(highNibble << 4) | lowNibble);
             }
-
+            
             return bytes;
         }
 
@@ -41,7 +41,7 @@ namespace OpenIso8583Net.Formatter
         /// <returns>value to return</returns>
         public string GetString(byte[] data)
         {
-            return BitConverter.ToString(data).Replace("-", string.Empty);
+            return data.ToHex();
         }
 
         /// <summary>

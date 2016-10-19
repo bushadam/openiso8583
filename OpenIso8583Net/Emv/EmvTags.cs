@@ -99,7 +99,7 @@
 
             var str = sb.ToString();
 
-            return str.Substring(0, str.Length - Environment.NewLine.Length);
+            return str.Length>0? str.Substring(0, str.Length - Environment.NewLine.Length):"";
         }
 
         /// <summary>

@@ -16,8 +16,7 @@ namespace OpenIso8583Net.Formatter
         /// <returns>Encoded byte array</returns>
         public byte[] GetBytes(string value)
         {
-            return Encoding.GetEncoding("GBK").GetBytes(value);
-            //return Encoding.ASCII.GetBytes(value);
+            return Config.Encoder.GetBytes(value);
         }
 
         /// <summary>
@@ -27,8 +26,7 @@ namespace OpenIso8583Net.Formatter
         /// <returns>Converted data</returns>
         public string GetString(byte[] data)
         {
-            return Encoding.GetEncoding("GBK").GetString(data);
-            //return Encoding.ASCII.GetString(data);
+            return Config.Encoder.GetString(data);
         }
 
         /// <summary>

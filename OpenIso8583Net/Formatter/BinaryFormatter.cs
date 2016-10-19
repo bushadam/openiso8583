@@ -50,8 +50,7 @@ namespace OpenIso8583Net.Formatter
         /// <returns>Converted data</returns>
         public static string GetString(byte[] data)
         {
-            var hex = BitConverter.ToString(data);
-            return hex.Replace("-", string.Empty);
+            return data.ToHex();
         }
 
         /// <summary>

@@ -45,6 +45,7 @@
     <Compile Include="Adjuster.cs" />
     <Compile Include="AMessage.cs" />
     <Compile Include="Bitmap.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Crypto\Iso0PinBlockFormatter.cs" />
     <Compile Include="Emv\EmvTags.cs" />
     <Compile Include="Emv\EmvUtils.cs" />

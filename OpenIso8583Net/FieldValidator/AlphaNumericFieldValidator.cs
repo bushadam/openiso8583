@@ -22,7 +22,7 @@
         /// <returns>true if valid, false otherwise</returns>
         public bool IsValid(string value)
         {
-            foreach (int b in value)
+            foreach (char b in value)
             {
                 if (b < 48 || b > 57 && b < 65 || b > 90 && b < 97 || b > 122)
                     return false;

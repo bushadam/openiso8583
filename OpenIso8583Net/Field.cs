@@ -41,7 +41,7 @@ namespace OpenIso8583Net
                 _value = _fieldDescriptor.Adjuster == null ? value : _fieldDescriptor.Adjuster.Set(value);
             }
         }
-
+        
         /// <summary>
         ///   Gets the field number that this field representss
         /// </summary>

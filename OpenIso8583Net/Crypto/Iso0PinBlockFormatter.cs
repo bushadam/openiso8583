@@ -16,7 +16,7 @@ namespace OpenIso8583Net.Crypto
         /// <returns>Clear PIN Block</returns>
         public static string CreatePinBlock(string pan, string pin)
         {
-            string line1 = pin.Length.ToString().PadLeft(2, '0') + pin;
+            string line1 = pin.Length.ToString("X").PadLeft(2, '0') + pin;
             line1 = line1.PadRight(16, 'F');
             string line2 = String.Format("0000{0}", pan.Substring(pan.Length - 13, 12));
 
